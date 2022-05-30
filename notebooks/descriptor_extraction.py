@@ -60,12 +60,12 @@ for i in range(300):
 
 embedded_desc = PCA(n_components=2).fit_transform(np.array(descriptors))
 
-plt.scatter(x=embedded_desc[:, 0], y=embedded_desc[:, 1], c=labels)
+plt.scatter(x=embedded_desc[:, 0], y=embedded_desc[:, 1], c=labels,cmap='set1')
 plt.show()
 # %%
 clust = KMeans(n_clusters=300).fit_predict(np.array(descriptors))
 
-plt.scatter(x=embedded_desc[:, 0], y=embedded_desc[:, 1], c=clust)
+plt.scatter(x=embedded_desc[:, 0], y=embedded_desc[:, 1], c=clust, cmap='Pastel1')
 plt.show()
 # %%
 from sklearn.metrics import homogeneity_score
