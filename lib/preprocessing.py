@@ -18,23 +18,22 @@ class Preprocessor:
     def set_mask(self, mask):
         self.mask = mask
 
-    def get_prerprocessed_img(self):
-        self.mask = self.augment_region()
-        self.img = self.apply_mask()
-        self.img = np.uint8(self.equalize())
-        self.img = self.adjust_brightness_and_contrast()
-        return self.sharpen_img()
+    def preprocessing_pipeline(self):
+        self.augment_region()
+        self.apply_mask()
+        self.equalize()
+        self.adjust_brightness_and_contrast()
+        self.sharpen_img()
 
     def sharpen_img(self):
         sharpened = unsharp_mask(self.img, 7, 1)
-        return np.uint8(cv2.normalize(sharpened, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX))
+        self.img= np.uint8(cv2.normalize(sharpened, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX))
 
     def augment_region(self):
         self.mask[self.mask == np.max(self.mask)] = 1
         self.mask[self.mask != 1] = 0
         footprint = diamond(radius=10)
-        d_mask = dilation(self.mask, footprint)
-        return d_mask
+        self.mask = dilation(self.mask, footprint)
 
     def apply_mask(self):
         self.mask[self.mask == np.max(self.mask)] = 1
@@ -75,7 +74,7 @@ class Preprocessor:
         self.img[p4, p1:p2] = -1
 
         region = self.img[p3:p4, p1:p2]
-        return resize(region, (512, 512), anti_aliasing=True)
+        self.img = resize(region, (512, 512), anti_aliasing=True)
 
     def adjust_brightness_and_contrast(self, clip_hist_percent=1):
         # Calculate grayscale histogram
@@ -106,8 +105,8 @@ class Preprocessor:
         alpha = 255 / (maximum_gray - minimum_gray)
         beta = -minimum_gray * alpha
 
-        return cv2.convertScaleAbs(self.img, alpha=alpha, beta=beta)
+        self.img = cv2.convertScaleAbs(self.img, alpha=alpha, beta=beta)
 
     def equalize(self):
         equalized_img = equalize_adapthist(self.img)
-        return cv2.normalize(equalized_img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX)
+        self.img = cv2.normalize(equalized_img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX).astype(np.uint8)
