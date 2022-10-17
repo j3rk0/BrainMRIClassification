@@ -28,7 +28,7 @@ class KeyPointExtractor:
 
 class SiftKeypointsExtractor(KeyPointExtractor):
     def extract_keyp(self):
-        extractor = SIFT()
+        extractor = SIFT(upsampling=1, n_scales=6, sigma_min=3)
         extractor.detect_and_extract(self.img)
         self.keyp_desc = extractor.descriptors
         self.keyp_loc = extractor.keypoints

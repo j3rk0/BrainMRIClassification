@@ -50,7 +50,7 @@ descriptors /= (descriptors.sum(axis=1, keepdims=True) + 1e-7)
 # %% SPLIT TRAIN/TEST
 
 
-mask = img_fold < 5
+mask = img_fold > 1
 
 train_labels = img_labels[mask]
 train_desc = descriptors[mask]

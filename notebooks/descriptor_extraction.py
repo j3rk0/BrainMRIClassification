@@ -9,7 +9,7 @@ from lib.preprocessing import Preprocessor
 
 # %% Load metadata and initialize pipeline
 
-dataset = pd.read_csv('data/features.csv')
+dataset = pd.read_csv('data/features.csv',index_col=0)
 keyp_extractor = SiftKeypointsExtractor(None)
 preprocessor = Preprocessor(None, None)
 
@@ -49,12 +49,11 @@ for i in range(dataset.shape[0]):
     img_ids += [img_name] * descs.shape[0]
     img_labels += [label] * descs.shape[0]
     img_folds += [fold] * descs.shape[0]
-
-
+#%%
 # save data
 df = pd.DataFrame(descriptors)
 
-df.columns = [f'feat-{i}' for i in range(34)]
+df.columns = [f'feat-{i}' for i in range(128)]
 df['label'] = img_labels
 df['names'] = img_ids
 df['fold'] = img_folds

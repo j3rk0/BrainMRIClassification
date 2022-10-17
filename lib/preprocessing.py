@@ -27,7 +27,7 @@ class Preprocessor:
 
     def sharpen_img(self):
         sharpened = unsharp_mask(self.img, 7, 1)
-        self.img= np.uint8(cv2.normalize(sharpened, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX))
+        self.img = np.uint8(cv2.normalize(sharpened, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX))
 
     def augment_region(self):
         self.mask[self.mask == np.max(self.mask)] = 1
