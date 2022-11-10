@@ -57,4 +57,17 @@ df.columns = [f'feat-{i}' for i in range(128)]
 df['label'] = img_labels
 df['names'] = img_ids
 df['fold'] = img_folds
-df.to_csv("data/descriptors_fb.csv")
+df.to_csv("data/kp_descriptors.csv")
+#%%
+import matplotlib.pyplot as plt#1281 2460
+img = cv2.imread(f'data/images/mri/1.png', 0)
+mask = cv2.imread(f'data/images/mask/1.png', 0)
+preprocessor.set_img(img)
+preprocessor.set_mask(mask)
+preprocessor.preprocessing_pipeline()
+keyp_extractor.set_img(preprocessor.img)
+keyp_extractor.extract_keyp()
+plt.title('sift keypoints')
+plt.imshow(preprocessor.img,cmap='gray')
+plt.scatter(x=keyp_extractor.keyp_loc[:,0],y=keyp_extractor.keyp_loc[:,1],s=20,marker='s',color='red')
+plt.show()

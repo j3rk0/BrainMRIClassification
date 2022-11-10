@@ -13,23 +13,33 @@ plt.title('original image')
 plt.imshow(img)
 plt.show()
 
+
+#%%
+
+fig,axs = plt.subplots(2,2)
 prep.augment_region()  # augment tumor region
 prep.apply_mask()  # apply mask
-plt.title('ROI')
-plt.imshow(prep.img)
-plt.show()
+axs[0,0].set_title('ROI')
+axs[0,0].imshow(prep.img)
+axs[0,0].set_yticks([])
+axs[0,0].set_xticks([])
 
 prep.equalize()  # equalize roi
-plt.title('equalized ROI')
-plt.imshow(prep.img)
-plt.show()
+axs[0,1].set_title('equalized ROI')
+axs[0,1].imshow(prep.img)
+axs[0,1].set_yticks([])
+axs[0,1].set_xticks([])
 
 prep.adjust_brightness_and_contrast()  # adjust brightness and contrast
-plt.title('contrast and brightness adjusted')
-plt.imshow(prep.img)
-plt.show()
+axs[1,0].set_title('contrast and brightness')
+axs[1,0].imshow(prep.img)
+axs[1,0].set_yticks([])
+axs[1,0].set_xticks([])
 
 prep.sharpen_img()  # sharpen
-plt.title('sharpen roi')
-plt.imshow(prep.img)
+axs[1,1].set_title('sharpen ROI')
+axs[1,1].imshow(prep.img)
+axs[1,1].set_yticks([])
+axs[1,1].set_xticks([])
+
 plt.show()
